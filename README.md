@@ -82,3 +82,109 @@ Content-Type: application/json
   "isFull": false
 }
 ```
+
+### Size
+
+Retrieves the number of events in the queue.
+
+#### Request
+
+```http
+GET /size
+```
+
+#### Response
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "size": 0
+}
+```
+
+### Capacity
+
+Retrieves the maximum number of events that can be stored in the queue.
+
+#### Request
+
+```http
+GET /capacity
+```
+
+#### Response
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "capacity": 100
+}
+```
+
+### isEmpty
+
+Checks if the queue is empty.
+
+#### Request
+
+```http
+GET /isEmpty
+```
+
+#### Response
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "isEmpty": true
+}
+```
+
+### isFull
+
+Checks if the queue is full.
+
+#### Request
+
+```http
+GET /isFull
+```
+
+#### Response
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "isFull": false
+}
+```
+
+## Running the Service
+
+To run the service, execute the following command:
+
+```bash
+go run .
+```
+
+The service will start on port 8080.
+
+## Running the Tests
+
+To run the tests, execute the following command:
+
+```bash
+go test -v
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
