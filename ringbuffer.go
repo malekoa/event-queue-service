@@ -1,6 +1,9 @@
 package main
 
-import "errors"
+import (
+	"errors"
+	"math"
+)
 
 type RingBuffer struct {
 	buffer []interface{}
@@ -18,9 +21,27 @@ func NewRingBuffer(capacity int) *RingBuffer {
 	}
 }
 
+func ensureCapacity(rb *RingBuffer, minCapacity int) error {
+	current := len(rb.buffer)
+	if minCapacity <= current {
+		return nil
+	}
+	if current*2 > math.MaxInt {
+		return errors.New("error: cannot ensure capacity for a buffer that is too large")
+	}
+	newBuffer := make([]interface{}, current*2)
+	for i := 0; i < rb.size; i++ {
+		newBuffer[i] = rb.buffer[(rb.head+i)%current]
+	}
+	rb.buffer = newBuffer
+	rb.head = 0
+	rb.tail = rb.size
+	return nil
+}
+
 func (rb *RingBuffer) Enqueue(item interface{}) error {
-	if rb.size == len(rb.buffer) {
-		return errors.New("error: cannot enqueue to a full buffer")
+	if err := ensureCapacity(rb, rb.size+1); err != nil {
+		return err
 	}
 	rb.buffer[rb.tail] = item
 	rb.tail = (rb.tail + 1) % len(rb.buffer)
